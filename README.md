@@ -71,7 +71,7 @@ contract Attendance {
 ## 🧠 Future Improvements
 
 - ✅ Store timestamp along with attendance  
-- 📤 Deploy to a public testnet (e.g., Polygon Mumbai)  
+- 📤 Deploy to a public testnet 
 - 🧾 Add admin panel to view records  
 - 🔐 Add role-based access control
 
