@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blockchain Attendance System</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #4361ee;
+      --primary-dark: #3a56d4;
+      --secondary: #3f37c9;
+      --dark: #1a1a2e;
+      --light: #f8f9fa;
+      --gray: #6c757d;
+      --success: #4cc9f0;
+      --danger: #f72585;
+      --border-radius: 8px;
+      --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      --transition: all 0.3s ease;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f5f7ff;
+      color: var(--dark);
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .logo i {
+      color: var(--primary);
+      font-size: 1.75rem;
+    }
+
+    .logo h1 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--dark);
+    }
+
+    .wallet-info {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .wallet-address {
+      background-color: #e9ecef;
+      padding: 0.5rem 1rem;
+      border-radius: var(--border-radius);
+      font-size: 0.875rem;
+      font-family: monospace;
+      max-width: 200px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      border-radius: var(--border-radius);
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
+      border: none;
+      outline: none;
+    }
+
+    .btn-primary {
+      background-color: var(--primary);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background-color: var(--primary-dark);
+      box-shadow: var(--box-shadow);
+    }
+
+    .btn-outline {
+      background-color: transparent;
+      border: 1px solid var(--primary);
+      color: var(--primary);
+    }
+
+    .btn-outline:hover {
+      background-color: var(--primary);
+      color: white;
+    }
+
+    .card-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .card {
+      background-color: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      padding: 1.5rem;
+      transition: var(--transition);
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid #e9ecef;
+    }
+
+    .card-header i {
+      font-size: 1.25rem;
+      color: var(--primary);
+    }
+
+    .card-header h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+    }
+
+    .form-group {
+      margin-bottom: 1.25rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      font-size: 0.875rem;
+      color: var(--gray);
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1px solid #ced4da;
+      border-radius: var(--border-radius);
+      font-size: 1rem;
+      transition: var(--transition);
+    }
+
+    .form-control:focus {
+      border-color: var(--primary);
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.25);
+    }
+
+    .result {
+      margin-top: 1rem;
+      padding: 1rem;
+      border-radius: var(--border-radius);
+      background-color: #f8f9fa;
+      font-size: 0.875rem;
+    }
+
+    .success {
+      color: #28a745;
+      border-left: 4px solid #28a745;
+    }
+
+    .error {
+      color: var(--danger);
+      border-left: 4px solid var(--danger);
+    }
+
+    .status-indicator {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      margin-right: 0.5rem;
+    }
+
+    .connected {
+      background-color: #28a745;
+    }
+
+    .disconnected {
+      background-color: var(--danger);
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 1rem;
+      }
+      
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+      }
+      
+      .card-container {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo">
+        <i class="fas fa-user-check"></i>
+        <h1>Blockchain Attendance</h1>
+      </div>
+      <div class="wallet-info">
+        <span id="walletStatus" class="status-indicator disconnected"></span>
+        <span id="walletAddress" class="wallet-address">Wallet not connected</span>
+        <button onclick="connectWallet()" class="btn btn-primary">
+          <i class="fas fa-wallet"></i> Connect
+        </button>
+      </div>
+    </header>
+
+    <div class="card-container">
+      <!-- Add Student Card -->
+      <div class="card">
+        <div class="card-header">
+          <i class="fas fa-user-plus"></i>
+          <h3>Register Student</h3>
+        </div>
+        <div class="form-group">
+          <label for="studentAddress">Student Wallet Address</label>
+          <input type="text" id="studentAddress" class="form-control" placeholder="0x...">
+        </div>
+        <button onclick="addStudent()" class="btn btn-primary">
+          <i class="fas fa-save"></i> Register Student
+        </button>
+      </div>
+
+      <!-- Mark Attendance Card -->
+      <div class="card">
+        <div class="card-header">
+          <i class="fas fa-calendar-check"></i>
+          <h3>Mark Attendance</h3>
+        </div>
+        <div class="form-group">
+          <label for="dayInput">Day Number</label>
+          <input type="number" id="dayInput" class="form-control" placeholder="e.g. 1, 2, 3...">
+        </div>
+        <button onclick="markAttendance()" class="btn btn-primary">
+          <i class="fas fa-check-circle"></i> Mark Attendance
+        </button>
+      </div>
+
+      <!-- Check Attendance Card -->
+      <div class="card">
+        <div class="card-header">
+          <i class="fas fa-search"></i>
+          <h3>Check Attendance</h3>
+        </div>
+        <div class="form-group">
+          <label for="checkStudent">Student Address</label>
+          <input type="text" id="checkStudent" class="form-control" placeholder="0x...">
+        </div>
+        <div class="form-group">
+          <label for="checkDay">Day Number</label>
+          <input type="number" id="checkDay" class="form-control" placeholder="e.g. 1, 2, 3...">
+        </div>
+        <button onclick="checkAttendance()" class="btn btn-outline">
+          <i class="fas fa-search"></i> Check
+        </button>
+        <div id="attendanceResult" class="result" style="display: none;"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
